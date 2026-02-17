@@ -6,18 +6,18 @@ from influxdb_client import InfluxDBClient, Point, WritePrecision
 # import analytics router
 from app.routers.analytics import router as analytics_router
 
+# import datapoint router
+from app.routers.datapoint_router import router as datapoint_router
+
+# Import InfluxDB config
+from app.influx_config import client, write_api, ORG, BUCKET
+
 app = FastAPI()
 
 # -------------------------
 # InfluxDB Configuration
 # -------------------------
-url = "http://localhost:8086"
-token = "6_JnebAkyomoHqDgw7iyjtQSjhyb-bJ4codYsZhtb02akUIKpe1LSEa7QI8-5qxnBC06hzjkBhnvKAwswiNbYA=="
-org = "ai_factory"
-bucket = "machine_data"
-
-client = InfluxDBClient(url=url, token=token, org=org)
-write_api = client.write_api()
+# Configuration now loaded from app.influx_config
 # -------------------------
 # Data Model
 # -------------------------
@@ -40,12 +40,17 @@ def ingest_data(data: SensorData):
         .field("value", data.value)
         .time(timestamp, WritePrecision.NS)
     )
-    write_api.write(bucket=bucket, org=org, record=point)
+    write_api.write(bucket=BUCKET, org=ORG, record=point)
     return {"status": "ok"}
 # -------------------------
 # Include analytics router
 # -------------------------
 app.include_router(analytics_router)
+
+# -------------------------
+# Include datapoint router
+# -------------------------
+app.include_router(datapoint_router)
 # -------------------------
 # Sensor Data API
 # -------------------------
@@ -77,7 +82,7 @@ def sensor_data(
         .field("value", temperature)
         .time(timestamp, WritePrecision.NS)
     ]
-    write_api.write(bucket=bucket, org=org, record=points)
+    write_api.write(bucket=BUCKET, org=ORG, record=points)
     write_api.flush()
     
     return {

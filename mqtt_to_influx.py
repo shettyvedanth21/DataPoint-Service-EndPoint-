@@ -3,14 +3,7 @@ import paho.mqtt.client as mqtt
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from datetime import datetime
 
-# InfluxDB config
-INFLUX_URL = "http://localhost:8086"
-TOKEN = "6_JnebAkyomoHqDgw7iyjtQSjhyb-bJ4codYsZhtb02akUIKpe1LSEa7QI8-5qxnBC06hzjkBhnvKAwswiNbYA== "
-ORG = "ai_factory"
-BUCKET = "machine_data"
-
-client = InfluxDBClient(url=INFLUX_URL, token=TOKEN, org=ORG)
-write_api = client.write_api()
+from app.influx_config import client, write_api, ORG, BUCKET
 
 # MQTT config
 MQTT_BROKER = "localhost"

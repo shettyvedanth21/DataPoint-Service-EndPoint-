@@ -1,36 +1,31 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from datetime import datetime, timezone
-from influxdb_client import InfluxDBClient, Point, WritePrecision
+from influxdb_client import Point, WritePrecision
+from app.influx_config import write_api, ORG, BUCKET   
 
 app = FastAPI()
 
-url = "http://localhost:8086"
-token = "YOUR_TOKEN"
-org = "ai_factory"
-bucket = "machine_data"
-
-client = InfluxDBClient(url=url, token=token, org=org)
-write_api = client.write_api()
 
 class SensorData(BaseModel):
     device_id: str
-    property_id: str
+    property_id: str   # example: temperature / voltage / current
     value: float
     timestamp: datetime | None = None
+
 
 @app.post("/ingest")
 def ingest_data(data: SensorData):
     timestamp = data.timestamp or datetime.now(timezone.utc)
 
     point = (
-        Point("air_compressor")
+        Point("sensor_data")             
         .tag("device_id", data.device_id)
         .tag("property_id", data.property_id)
-        .field("value", data.value)
+        .field(data.property_id, data.value) 
         .time(timestamp, WritePrecision.NS)
     )
 
-    write_api.write(bucket=bucket, org=org, record=point)
+    write_api.write(bucket=BUCKET, org=ORG, record=point)
 
     return {"status": "ok"}
