@@ -1,1 +1,0 @@
-# DataPoint-Service-EndPoint-
