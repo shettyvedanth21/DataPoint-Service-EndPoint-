@@ -1,14 +1,9 @@
 from fastapi import FastAPI
 from app.influx_config import query_api, BUCKET
-
 app = FastAPI()
-
-
 @app.get("/")
 def root():
     return {"message": "Machine Analytics API running"}
-
-
 @app.get("/temperature")
 def get_temperature():
     query = f'''
