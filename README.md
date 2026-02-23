@@ -53,9 +53,6 @@ API Endpoints
 POST /analytics/datapoint
 Write machine sensor datapoint
 
-GET /analytics/latest?device_id=D01&property_id=temperature
-Get latest value of a device property
-
 GET /analytics/history?device_id=D01
 Get device data history
 
