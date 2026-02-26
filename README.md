@@ -41,19 +41,11 @@ Tags:
 * location → device location
 * status → operational state
 
-Fields:
-* value → sensor reading
-* battery_level → battery percentage
-* raw_value → raw sensor output
-* signal_strength → network signal
-* error_code → device error code
-* calibration_offset → calibration adjustment
-
 API Endpoints
 POST /analytics/datapoint
 Write machine sensor datapoint
 
-GET /analytics/history?device_id=D01
+GET /analytics/history
 Get device data history
 
 GET /analytics/all
