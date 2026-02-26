@@ -1,4 +1,3 @@
-
 It is an industrial IoT backend service that collects, stores, and retrieves machine sensor data using FastAPI and InfluxDB.
 
 Features:
@@ -6,7 +5,6 @@ Features:
 * Structured storage using InfluxDB time- series database
 * Latest sensor value retrieval
 * Historical data access per device
-
 
 Technology Stack
 Backend:
@@ -21,7 +19,6 @@ Database:
 Data Communication:
 * MQTT Publisher (sensor simulation)
 * JSON-based API communication
-
 
 InfluxDB Configuration:
 Organization:ai_factory
